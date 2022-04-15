@@ -37,6 +37,8 @@
 
 6. Salir
 
+-- tener en cuenta el vuelo mas largo realizado en el 2022 - 19483 km, puede ser el limite de kilometros
+
  */
 
 #include <stdio.h>
@@ -65,23 +67,25 @@ int main(void) {
 	kilometrosIngresados=0;
 	precioAerolineas=0;
 	precioLatam=0;
+	debitoAerolineas=0;
+	debitoLatam=0;
 
 	do
 		{
 			printf(""
 			"1) Ingresar Kilometros: (%d km)\n"
-			"2) Ingresar precio de vuelos(Aerolineas(%.2f), Latam(%.2f)\n"
+			"2) Ingresar precio de vuelos(Aerolineas($%.2f), Latam($%.2f)\n"
 			"3) Calcular todos los costos\n"
 			"4) Informar resultados\n"
 			"5) Carga forzada de datos\n"
 			"6) Salir\n",kilometrosIngresados, precioAerolineas, precioLatam);
-			if(utn_getNumber(&respuestaIngresada, "Por favor elija una opcion \n", "Error! no se pudo guardar la seleccion\n", 1, 6, 2)==0)
+			if(utn_getNumber(&respuestaIngresada, "Por favor elija una opcion: ", "Error! no se pudo guardar la seleccion\n", 1, 6, 2)==0)
 			{
 				switch(respuestaIngresada)
 				{
 					case 1:
 						system("clear");
-						utn_getNumber(&kilometrosIngresados, "Por favor ingrese los kilometros ", "Error! en edad ingresada\n", 1, 19483, 2);
+						utn_getNumber(&kilometrosIngresados, "Por favor ingrese los kilometros: ", "Error! al ingresar los kilometros\n", 1, 19483, 2);
 					break;
 
 					case 2:
@@ -89,53 +93,123 @@ int main(void) {
 						printf(""
 						"1) Aerolineas\n"
 						"2) Latam\n");
-						utn_getNumber(&respuestaIngresada, "\nPor favor elija una opcion ", "Error! en opcion ingresada\n", 1, 19483, 2);
+						utn_getNumber(&respuestaIngresada, "\nPor favor elija una opcion: ", "Error! en opcion ingresada\n", 1, 19483, 2);
 						switch(respuestaIngresada)
 						{
 						case 1:
 							system("clear");
-							utn_getFloat(&precioAerolineas, "\n\nPor favor ingrese el precio de Aerolineas ", "Error! en float ingresado\n", 1, 250000, 2);
+							utn_getFloat(&precioAerolineas, "\n\nPor favor ingrese el precio de Aerolineas: ", "Error al ingresar el precio\n", 1, 250000, 2);
 						break;
 
 						case 2:
 							system("clear");
-							utn_getFloat(&precioLatam, "\n\nPor favor ingrese el precio de Latam ", "Error! en float ingresado\n", 1, 250000, 2);
+							utn_getFloat(&precioLatam, "\n\nPor favor ingrese el precio de Latam: ", "Error al ingresar el precio\n", 1, 250000, 2);
 						break;
 						}
 					break;
 					case 3:
-						// importes de Aerolineas
-						calculaTarjetaDebito(&debitoAerolineas, precioAerolineas);
-						calculaTarjetaCredito(&creditoAerolineas, precioAerolineas);
-						calcularBitcoin(&bitcoinAerolineas, precioAerolineas);
-						calcularUnitario(&unitarioAerolineas, precioAerolineas, kilometrosIngresados);
+						if(precioAerolineas!=0 && precioLatam!=0)
+						{
+							// importes de Aerolineas
+							calculaTarjetaDebito(&debitoAerolineas, precioAerolineas);
+							calculaTarjetaCredito(&creditoAerolineas, precioAerolineas);
+							calcularBitcoin(&bitcoinAerolineas, precioAerolineas);
+							calcularUnitario(&unitarioAerolineas, precioAerolineas, kilometrosIngresados);
 
-						// importes de Latam
-						calculaTarjetaDebito(&debitoLatam, precioLatam);
-						calculaTarjetaCredito(&creditoLatam, precioLatam);
-						calcularBitcoin(&bitcoinLatam, precioLatam);
-						calcularUnitario(&unitarioLatam, precioLatam, kilometrosIngresados);
+							// importes de Latam
+							calculaTarjetaDebito(&debitoLatam, precioLatam);
+							calculaTarjetaCredito(&creditoLatam, precioLatam);
+							calcularBitcoin(&bitcoinLatam, precioLatam);
+							calcularUnitario(&unitarioLatam, precioLatam, kilometrosIngresados);
 
-						// diferencia
-						calcularDiferencia(&diferenciaPrecios, precioAerolineas, precioLatam);
-						printf("\nCalculos realizados\n\n");
+							// diferencia
+							calcularDiferencia(&diferenciaPrecios, precioAerolineas, precioLatam);
+							printf("\nCalculos realizados\n\n");
+						}
+						else
+						{
+							if(precioAerolineas==0 && precioAerolineas==0)
+							{
+								printf("\nPor favor ingrese los importes para poder calcular!\n\n");
+							}
+							else
+							{
+								if(precioAerolineas==0)
+								{
+									printf("\nPor favor ingrese el importe de Aerolineas para poder calcular\n\n");
+								}
+								else
+								{
+									if(precioLatam==0)
+									{
+										printf("\nPor favor ingrese el importe de Latam para poder calcular\n\n");
+									}
+								}
+							}
+						}
 					break;
 					case 4:
-						printf("Precio Aerolineas: $%.2f\n",precioAerolineas);
-						printf("a) Precio con tarjeta de debito: $%.2f\n",debitoAerolineas);
-						printf("b) Precio con tarjeta de credito: $%.2f\n",creditoAerolineas);
-						printf("c) Precio con pagando con bitcoin:  %.2f BTC\n",bitcoinAerolineas);
-						printf("d) Precio unitario: %.2f\n\n",unitarioAerolineas);
-						printf("Precio Latam: $%.2f\n",precioLatam);
-						printf("a) Precio con tarjeta de debito: %.2f\n",debitoLatam);
-						printf("b) Precio con tarjeta de credito: %.2f\n",creditoLatam);
-						printf("c) Precio con pagando con bitcoin: %.2f BTC\n",bitcoinLatam);
-						printf("d) Precio unitario: %.2f\n\n",unitarioLatam);
-						printf("La diferencia de precio es: %.2f\n\n",diferenciaPrecios);
+						if(debitoAerolineas==0 || precioLatam==0)
+						{
+							printf("\nLos informes no estan disponibles en este momento, falta alguno de los datos para poder calcularlos\n");
+						}
+						else
+						{
+							if(kilometrosIngresados==0)
+							{
+
+								printf("\nAlguno de los calculos no se ha completado, quiere ver los informes de todos modos? 1) si 2) no\n\n");
+								utn_getNumber(&respuestaIngresada, "Por favor elija una opcion ", "Error! no se pudo guardar la seleccion\n", 1, 2, 2);
+								if(respuestaIngresada==1)
+								{
+									printf("Precio Aerolineas: $%.2f\n",precioAerolineas);
+									printf("a) Precio con tarjeta de debito: $%.2f\n",debitoAerolineas);
+									printf("b) Precio con tarjeta de credito: $%.2f\n",creditoAerolineas);
+									printf("c) Precio con pagando con bitcoin:  %.2f BTC\n",bitcoinAerolineas);
+									printf("d) Precio unitario: %.2f\n\n",unitarioAerolineas);
+									printf("Precio Latam: $%.2f\n",precioLatam);
+									printf("a) Precio con tarjeta de debito: %.2f\n",debitoLatam);
+									printf("b) Precio con tarjeta de credito: %.2f\n",creditoLatam);
+									printf("c) Precio con pagando con bitcoin: %.2f BTC\n",bitcoinLatam);
+									printf("d) Precio unitario: %.2f\n\n",unitarioLatam);
+									printf("La diferencia de precio es: %.2f\n\n",diferenciaPrecios);
+								}
+							}
+							else
+							{
+								printf("Precio Aerolineas: $%.2f\n",precioAerolineas);
+								printf("a) Precio con tarjeta de debito: $%.2f\n",debitoAerolineas);
+								printf("b) Precio con tarjeta de credito: $%.2f\n",creditoAerolineas);
+								printf("c) Precio con pagando con bitcoin:  %.2f BTC\n",bitcoinAerolineas);
+								printf("d) Precio unitario: %.2f\n\n",unitarioAerolineas);
+								printf("Precio Latam: $%.2f\n",precioLatam);
+								printf("a) Precio con tarjeta de debito: %.2f\n",debitoLatam);
+								printf("b) Precio con tarjeta de credito: %.2f\n",creditoLatam);
+								printf("c) Precio con pagando con bitcoin: %.2f BTC\n",bitcoinLatam);
+								printf("d) Precio unitario: %.2f\n\n",unitarioLatam);
+								printf("La diferencia de precio es: %.2f\n\n",diferenciaPrecios);
+							}
+						}
 
 					break;
 					case 5:
-						utn_cargaForzada(&kilometrosIngresados, &precioAerolineas, &precioLatam, 7090, 162965, 159339);
+						if(kilometrosIngresados!=0 || precioAerolineas!=0 || precioLatam!=0)
+						{
+							printf("\nAlguna de las opciones ya tiene datos ingresados, desea sobreescribir? 1) si 2) no\n\n");
+							utn_getNumber(&respuestaIngresada, "Por favor elija una opcion ", "Error! no se pudo guardar la seleccion\n", 1, 2, 2);
+							if(respuestaIngresada==1)
+							{
+								utn_cargaForzada(&kilometrosIngresados, &precioAerolineas, &precioLatam, 7090, 162965, 159339);
+							}
+							else
+							{
+								printf("\nNo se realizo la carga forzada!\n\n");
+							}
+						}
+						else
+						{
+							utn_cargaForzada(&kilometrosIngresados, &precioAerolineas, &precioLatam, 7090, 162965, 159339);
+						}
 					break;
 				}
 
