@@ -1,11 +1,13 @@
 /*
  ============================================================================
  Name        : tp_1_prototipo.c
- Author      : 
- Version     :
+ Author      : Rodriguez Juan Manuel
+ Version     : 1.0.1
  Copyright   : Your copyright notice
- Description : Hello World in C, Ansi-style
+ Description : capculador de viajes, Ansi-style
  ============================================================================
+
+Enunciado
 
 1. Ingresar Kilómetros: ( km=x)
 
@@ -37,7 +39,7 @@
 
 6. Salir
 
--- tener en cuenta el vuelo mas largo realizado en el 2022 - 19483 km, puede ser el limite de kilometros
+--- tener en cuenta el vuelo mas largo realizado en el 2022 - 19483 km (Korea - Buenos Aires), puede ser el limite de kilometros
 
  */
 
@@ -58,8 +60,8 @@ int main(void) {
 	float debitoLatam;
 	float creditoAerolineas;
 	float creditoLatam;
-	double bitcoinAerolineas;
-	double bitcoinLatam;
+	double bitcoinAerolineas; // mayor precision en digitos despues de la coma con el double, igual respeto lo que indica la consigna con solo 2 digitos despues de la coma
+	double bitcoinLatam; // mayor precision en digitos despues de la coma con el double, igual respeto lo que indica la consigna con solo 2 digitos despues de la coma
 	float unitarioAerolineas;
 	float unitarioLatam;
 	float diferenciaPrecios;
